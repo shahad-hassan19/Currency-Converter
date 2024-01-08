@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import InputBox from './Components/InputBox';
 import useCurrencyInfo from './Hooks/useCurrencyInfo';
-import { HiArrowsUpDown } from "react-icons/hi2";
 
 function App() {
     const [ amount, setAmount ] = useState(0)
@@ -56,9 +55,9 @@ function App() {
                         <div className="relative self-center w-6 h-1">
                             <button
                                 type="button"
-                                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 md:rotate-90 border-2 border-white rounded-md bg-blue-600 text-white px-2 py-0.5"
+                                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 md:rotate-180 border-2 border-white rounded-md bg-blue-600 text-white px-2 py-0.5"
                                 onClick={swap} >
-                                <HiArrowsUpDown  />
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
                             </button>
                         </div>
                         <div className="w-full border-2 border-black rounded-md">
