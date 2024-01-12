@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import InputBox from './Components/InputBox';
 import useCurrencyInfo from './Hooks/useCurrencyInfo';
 
 function App() {
     const [ amount, setAmount ] = useState(0)
+    const [copy, setCopy] = useState('Copy')
     const [ from, setFrom ] = useState('usd')
     const [ to, setTo ] = useState('inr')
     const [ convertedAmount, setConvertedAmount] = useState(0)
@@ -17,13 +18,23 @@ function App() {
     const swap = () => {
     setFrom(to)
     setTo(from)
-    setConvertedAmount(amount)
-    setAmount(convertedAmount)
     }
 
-    const convert = () => {
-    setConvertedAmount(amount * fromCurrencyInfo[to])
-    }
+    useEffect(
+        () => {
+            setConvertedAmount((amount * fromCurrencyInfo[to]).toFixed(4))
+            setCopy('Copy')
+            },[ amount, from, to ,fromCurrencyInfo]
+    )
+
+    const handleClick = useCallback(
+        () => {
+            window.navigator.clipboard.writeText(convertedAmount)
+            if (convertedAmount !== 0){
+                setCopy('Copied')
+            }
+        }, [ convertedAmount ]
+    )
 
     const styles = {
         'color' : '#9FE870',
@@ -38,11 +49,10 @@ function App() {
                     <form
                         onSubmit={(e) => {
                         e.preventDefault();
-                        convert()
                         }}>
 
                         <div className='flex flex-col md:flex-row justify-center align-items-center'>
-                        <div className="w-full border-2 border-black rounded-md">
+                        <div className="w-full shadow-md shadow-black rounded-md p-2">
                             <InputBox
                                 label="Amount"
                                 amount={amount}
@@ -60,7 +70,7 @@ function App() {
                                 <i class="fa-solid fa-arrow-right-arrow-left"></i>
                             </button>
                         </div>
-                        <div className="w-full border-2 border-black rounded-md">
+                        <div className="w-full shadow-md shadow-black rounded-md p-2">
                             <InputBox
                                 label="Converted To"
                                 amount={convertedAmount}
@@ -72,9 +82,9 @@ function App() {
                         </div>
                         </div>
                         <div className='mt-5 flex text-center justify-between flex-col md:flex-row'>
-                            <p className='text-xl font-semibold p-3'>{amount} {from.toUpperCase()} = <span className=' text-green-700'>{convertedAmount}</span> {to.toUpperCase()}</p>
-                            <button type="submit" className="w-full sm:m-5 md:m-0 sm:self-center sm:w-1/2 md:w-1/3 bg-blue-600 text-white p-3 rounded-lg">
-                                Convert {from.toUpperCase()} to {to.toUpperCase()}
+                            <p className='text-xl font-semibold p-3'>{1} {from.toUpperCase()} = <span className=' text-green-700'>{fromCurrencyInfo[to]}</span> {to.toUpperCase()}</p>
+                            <button type="submit" className="sm:m-5 md:m-0 self-center lg:self-end w-32 bg-blue-600 text-white p-3 rounded-lg" onClick={handleClick}>
+                                {copy}
                             </button>
                         </div>
                     </form>
