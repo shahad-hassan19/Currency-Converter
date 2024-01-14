@@ -41,7 +41,7 @@ function App() {
     }
 
     return (
-        <div className="w-full min-h-full h-screen p-6 flex flex-col items-center bg-blue bg-opacity-90" >
+        <div className="w-full min-h-full h-screen p-6 flex flex-col items-center bg-body bg-opacity-90" >
             <h1 className=' text-5xl md:text-6xl text-center font-extrabold mt-5 mb-24' style={styles}>CoinQuotient</h1>
             <h2 className=' text-2xl md:text-3xl text-center font-extrabold mb-10' style={styles}> Convert { from.toUpperCase() } to { to.toUpperCase() } at the real exchange rate. </h2>
             <div className="w-full">
